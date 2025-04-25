@@ -1,0 +1,9 @@
+# fastapi
+# uvicorn[standard]
+# google-cloud-aiplatform
+
+fastapi
+uvicorn
+vertexai
+google-cloud-aiplatform
+pydantic
