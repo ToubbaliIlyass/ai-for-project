@@ -5,13 +5,17 @@ from vertexai.preview.generative_models import GenerativeModel
 
 import os
 import base64
+import google.auth
+from google.oauth2 import service_account  # ← Import this!
 
 service_account_b64 = os.getenv("GCP_KEY_JSON")
+credentials = None
+
 if service_account_b64:
     decoded_key = base64.b64decode(service_account_b64).decode("utf-8")
     with open("service_account.json", "w") as f:
         f.write(decoded_key)
-
+    credentials = service_account.Credentials.from_service_account_file("service_account.json")
 
 app = FastAPI()
 
@@ -19,7 +23,8 @@ project_id = "go-vital-ai"
 location = "us-central1"
 
 vertexai.init(project=project_id, 
-              location=location, credentials="service_account.json")
+              location=location, 
+              credentials=credentials)
 
 model = GenerativeModel("gemini-2.0-flash")
 
