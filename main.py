@@ -4,12 +4,14 @@ import vertexai
 from vertexai.preview.generative_models import GenerativeModel
 
 import os
-import json
+import base64
 
-# Load the service account key from Railway's secret
-service_account_json = os.getenv("GCP_KEY_JSON")
-with open("service_account.json", "w") as f:
-    f.write(service_account_json)
+service_account_b64 = os.getenv("GCP_KEY_JSON")
+if service_account_b64:
+    decoded_key = base64.b64decode(service_account_b64).decode("utf-8")
+    with open("service_account.json", "w") as f:
+        f.write(decoded_key)
+
 
 app = FastAPI()
 
